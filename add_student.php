@@ -18,21 +18,16 @@ if ($method == "POST") {
     $data = json_decode($json_data, true);
 
     if (!empty($data)) {
-        // Nhận dữ liệu từ Android gửi qua (Thẻ @SerializedName)
-        // Vì cột id của bạn là INT, nếu bạn nhập "SV01" nó sẽ bị biến thành 0. 
-        // Tốt nhất khi test trên App, ô Mã sinh viên Khoa hãy nhập dạng SỐ (Ví dụ: 10221001)
         $id       = !empty($data['id']) ? (int)$data['id'] : null; 
         $name     = $data['name'] ?? null;
         $age      = !empty($data['age']) ? (int)$data['age'] : null;
         $email    = $data['email'] ?? null;
         $class    = $data['class'] ?? null;
         $address  = $data['address'] ?? null;
-        $phone    = $data['phone'] ?? null; // Cột phone trong DB là int(11) nên không cần để chuỗi rỗng
+        $phone    = $data['phone'] ?? null; 
         
-        // Đổi từ khóa để khớp với database: lấy từ 'birthday' gán vào cột 'date'
         $date     = !empty($data['birthday']) ? $data['birthday'] : null;
         
-        // Đổi từ khóa để khớp với database: lấy từ 'gender' gán vào cột 'sex'
         $sex      = $data['gender'] ?? 'Nam';
 
         if (empty($name)) {
@@ -42,7 +37,7 @@ if ($method == "POST") {
         }
 
         try {
-            // Câu lệnh SQL chỉnh sửa tên cột khớp 100% với ảnh phpMyAdmin của bạn: class, date, sex
+  
             $sql = "INSERT INTO students (id, name, age, email, class, address, phone, date, sex) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             

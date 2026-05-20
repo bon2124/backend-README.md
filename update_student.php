@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-include 'db.php'; // 🛠️ ĐÃ SỬA: Đổi sang db.php cho khớp hệ thống của bạn
+include 'db.php'; 
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -14,20 +14,20 @@ if ($method == "OPTIONS") {
 }
 
 if ($method == "POST") {
-    // 🛠️ ĐÃ SỬA: Nhận dữ liệu đồng thời cả Form-data (do ApiService dùng @Field)
+    
     $id       = $_POST['id'] ?? null;
     $name     = $_POST['name'] ?? null;
     $age      = $_POST['age'] ?? null;
     $email    = $_POST['email'] ?? null;
-    $class    = $_POST['class'] ?? null; // Khớp với @Field("class") bên Android
+    $class    = $_POST['class'] ?? null;
     $address  = $_POST['address'] ?? null;
     $phone    = $_POST['phone'] ?? null;
-    $date     = $_POST['date'] ?? null;  // Khớp với @Field("date") bên Android
-    $sex      = $_POST['sex'] ?? null;   // Khớp với @Field("sex") bên Android
+    $date     = $_POST['date'] ?? null; 
+    $sex      = $_POST['sex'] ?? null;   
 
     if (!empty($id) && !empty($name)) {
         try {
-            // Câu lệnh SQL chuẩn hóa tên cột: id, name, age, email, class, address, phone, date, sex
+   
             $query = "UPDATE students SET 
                         name    = :name, 
                         age     = :age, 

@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-include 'db.php'; // 🛠️ ĐÃ SỬA: Đổi từ connect.php sang db.php cho khớp hệ thống của bạn
+include 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -12,12 +12,8 @@ if ($method == "OPTIONS") {
     http_response_code(200);
     exit();
 }
-
 if ($method == "POST") {
-    // 🛠️ ĐÃ SỬA: Nhận dữ liệu dạng Form-urlencoded từ Android truyền sang ($_POST)
     $id = isset($_POST['id']) ? $_POST['id'] : null;
-
-    // Phòng trường hợp Android truyền dạng JSON thô, ta bọc thêm lớp này cho chắc chắn
     if (empty($id)) {
         $json_data = file_get_contents("php://input");
         $data = json_decode($json_data, true);
@@ -30,8 +26,6 @@ if ($method == "POST") {
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
-
-            // Phản hồi JSON chuẩn về cho Android bóc tách
             http_response_code(200);
             echo json_encode(array("success" => true, "message" => "Xóa thành công"));
             exit();
